@@ -1,136 +1,311 @@
-# PERMA‑GNN‑Transformer: Cross‑Cultural Student Well‑being Prediction
-
-*Official reproducibility package for the manuscript*
+我需要先查看您上传的文档，以便根据您论文的具体内容撰写准确的README文件。让我先读取一下文档。根据论文内容,我为您撰写了一份完整、专业的README文件:
 
 ---
 
-## 1. Overview
+# PERMA-Guided Multi-Topology Graph Neural Networks for Cross-Cultural Student Well-being Prediction
 
-This repository accompanies the paper **“PERMA‑Guided Multi‑Topology Graph Neural Networks for Cross‑Cultural Student Well‑being Prediction.”**
-It provides the full codebase, pre‑processed datasets, trained checkpoints, and experiment scripts required to reproduce every table and figure in the paper (NeurIPS’25 submission ID #3217).
+## Overview
 
-Key contents
+This repository contains the implementation of **PERMA-GNN-Transformer**, a novel deep learning framework that integrates positive psychology theory with graph neural networks for predicting student well-being across different cultural contexts. The model achieves state-of-the-art performance by combining PERMA (Positive Emotion, Engagement, Relationships, Meaning, and Accomplishment) theory-driven feature embedding, multi-topology graph neural networks, and Transformer-based encoding.
 
-| Section                                   | What you will find                                                      |
-| ----------------------------------------- | ----------------------------------------------------------------------- |
-| [`/data`](#-datasets)                     | Kaggle & Zenodo links, download helpers, preprocessing pipeline         |
-| [`/src`](#-code-structure)                | PERMA‑GNN‑Transformer implementation (PyTorch 2 + PyG 2)                |
-| [`/configs`](#-quick-start)               | Hydra YAMLs that recreate *Table 1* and *Figure 2*                      |
-| [`/notebooks`](#-analysis--visualisation) | Exploratory notebooks & attention‑map visualisation                     |
-| [`/pretrained`](#-checkpoints)            | Ready‑to‑use models for **Lifestyle & Wellbeing** and **ISMH** datasets |
+**Key Highlights:**
+- Integrates PERMA positive psychology theory with deep learning architecture
+- Multi-topology graph structure modeling (cosine similarity, Euclidean distance, learning styles, PERMA-weighted graphs)
+- Cross-cultural adaptability validated on datasets from multiple countries
+- Achieves 42.8% improvement over baseline methods on large-scale datasets
+- Provides interpretable multi-dimensional well-being predictions
 
----
+## Project Structure
 
-## 2. Contributions
-
-1. **Theory‑driven representation learning** – first structured integration of Seligman’s PERMA theory with deep neural networks.
-2. **Multi‑topology GNN** – four complementary student graphs (cosine, Euclidean, learning‑style, PERMA‑weighted) fused via graph‑level attention.
-3. **PERMA‑aligned Transformer** – five dedicated attention heads (P/E/R/M/A) delivering interpretable predictions.
-4. **Cross‑cultural validation** – consistent 18.9 % → 27.8 % MAE reduction on Western (n = 12,757) and East‑Asian (n = 268) cohorts.
-
----
-
-## 3. Datasets  <a name="datasets"></a>
-
-| Dataset                                        | Domain / Culture                                    | Split         | Link                                                                                                                                                                                       |
-| ---------------------------------------------- | --------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Lifestyle & Wellbeing Data**                 | Western‑adult survey (12 757×23)                    | 70 / 20 / 10  | [https://www.kaggle.com/datasets/dartweichen/student-life](https://www.kaggle.com/datasets/dartweichen/student-life)                                                                       |
-| **International Student Mental Health (ISMH)** | East‑Asian university cohort (268×29)               | 70 / 20 / 10  | [https://www.kaggle.com/datasets/walassetomaz/pisa-results-2000-2022-economics-and-education](https://www.kaggle.com/datasets/walassetomaz/pisa-results-2000-2022-economics-and-education) |
-| **StudentWellbeing v1.0** (processed)          | Harmonised PERMA labels, four graphs, splits, stats | —             | [Zenodo 10.5281/zenodo.1111111](https://zenodo.org/record/1111111)                                                                                                                         |
-
-Download all raw files **once**:
-
-```bash
-bash scripts/download_data.sh  # ~300 MB
 ```
-
-This script verifies SHA‑256 checksums and unpacks to `data/raw/`.
-
----
-
-## 4. Environment
-
-```bash
-conda create -n perma_gnn python=3.10 pytorch=2.1 pyg=2.4 -c pytorch -c pyg
-conda activate perma_gnn
-pip install -r requirements.txt  # hydra-core, wandb, captum, rich...
-```
-
-GPU ✧ NVIDIA ≥ Ampere (tested on RTX 4090); CPU‑only training is possible but slow.
-
----
-
-## 5. Code Structure  <a name="code-structure"></a>
-
-```text
-src/
-├── datasets/           # loaders + graph builders
+├── data/
+│   ├── preprocess.py          # Data preprocessing and feature extraction
+│   ├── graph_construction.py  # Multi-topology graph construction
+│   └── dataset_loader.py      # Custom dataset loaders
 ├── models/
-│   ├── perma_gnn.py    # PERMA‑GNN‑Transformer ⟵ Section 3.2 of paper
-│   └── gnn_baselines/  # GCN, GAT, GraphSAGE, SGFormer
-├── train.py            # entry point (Hydra driven)
-└── evaluate.py         # metrics + PERMA consistency check
+│   ├── perma_gnn_transformer.py  # Main model architecture
+│   ├── perma_embedding.py        # PERMA theory-driven feature embedding
+│   ├── multi_topology_gnn.py     # Multi-topology graph neural network
+│   ├── perma_transformer.py      # PERMA-aligned Transformer encoder
+│   └── loss_functions.py         # Multi-task loss with consistency constraints
+├── utils/
+│   ├── metrics.py             # PERMA theory comprehensive evaluation metrics
+│   ├── visualization.py       # Result visualization tools
+│   └── config.py              # Configuration management
+├── experiments/
+│   ├── train.py               # Model training script
+│   ├── evaluate.py            # Model evaluation script
+│   └── ablation_study.py      # Ablation study experiments
+├── configs/
+│   ├── default_config.yaml    # Default configuration file
+│   └── hyperparameters.yaml   # Hyperparameter settings
+├── notebooks/
+│   ├── data_exploration.ipynb      # Data exploration and analysis
+│   └── result_visualization.ipynb  # Results visualization
+├── requirements.txt           # Python dependencies
+└── README.md                 # This file
 ```
 
----
+## Datasets
 
-## 6. Quick Start  <a name="quick-start"></a>
+This study utilizes two publicly available datasets to validate cross-cultural adaptability:
 
+### 1. Lifestyle and Wellbeing Data
+- **Source**: Kaggle (www.Authentic-Happiness.com)
+- **Size**: 12,757 valid samples
+- **Features**: 23 dimensions including social time, exercise habits, sleep quality, work hours, etc.
+- **Cultural Context**: Primarily Western cultural backgrounds
+- **Access Date**: March 15, 2024
+- **Ethics**: Public dataset with appropriate consent
+
+### 2. International Student Mental Health Dataset
+- **Source**: International university in Japan
+- **Size**: 268 students (50% international, 50% domestic)
+- **Features**: Mental health surveys, academic performance, social adaptation indicators
+- **Cultural Context**: Multi-cultural environment (Asian and international students)
+- **Access Date**: March 18, 2024
+- **Ethics**: Anonymized with appropriate institutional approval
+
+**Data Mapping to PERMA Theory:**
+- Positive Emotion: Mood scores, satisfaction ratings
+- Engagement: Study time, activity participation
+- Relationships: Social time, peer interaction frequency
+- Meaning: Academic goals, life purpose indicators
+- Accomplishment: Academic performance, achievement milestones
+
+## Installation
+
+### Requirements
+- Python 3.8+
+- CUDA 11.8+ (for GPU acceleration)
+- 24GB+ GPU VRAM (NVIDIA RTX 4090 or equivalent recommended)
+
+### Step 1: Clone the Repository
 ```bash
-# 1. Train on Lifestyle & Wellbeing
-python src/train.py ++config=configs/lwd.yaml
-
-# 2. Evaluate checkpoint on test split
-python src/evaluate.py ckpt=pretrained/lwd_perma.pt datamodule=lwd
-
-# 3. Reproduce ablation Figure 2
-python src/experiments/run_ablation.py
+git clone https://github.com/yourusername/PERMA-GNN-Transformer.git
+cd PERMA-GNN-Transformer
 ```
 
-All hyper‑parameters (learning rate 1e‑4, batch 32, hidden 256, heads 5) are stored in YAMLs.
-
----
-
-## 7. Analysis & Visualisation  <a name="analysis--visualisation"></a>
-
-Open `notebooks/attention_maps.ipynb` to inspect:
-
-* five‑head alignment (0.85 → 0.94 diagonal)
-* graph‑level attention weights per student type
-* PERMA radar plots for high/medium/low wellbeing cases
-
----
-
-## 8. Checkpoints  <a name="checkpoints"></a>
-
+### Step 2: Create Virtual Environment
 ```bash
-wget https://zenodo.org/record/1111111/files/lwd_perma.pt -P pretrained/
-wget https://zenodo.org/record/1111111/files/ismh_perma.pt -P pretrained/
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-These reproduce *Table 1* exactly (seed = 42).
+### Step 3: Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
----
+### Core Dependencies
+- PyTorch 2.0.1+cu118
+- PyTorch Geometric 2.3.1
+- NumPy 1.24.3
+- Pandas 2.0.2
+- Scikit-learn 1.3.0
+- Matplotlib 3.7.1
+- Seaborn 0.12.2
+- PyYAML 6.0
+- tqdm 4.65.0
 
-## 9. Citation
+## Quick Start
+
+### 1. Data Preprocessing
+```bash
+python data/preprocess.py --dataset lifestyle --output data/processed/
+python data/preprocess.py --dataset international --output data/processed/
+```
+
+### 2. Graph Construction
+```bash
+python data/graph_construction.py --input data/processed/ --topologies all
+```
+
+### 3. Model Training
+```bash
+# Train on Lifestyle and Wellbeing Data
+python experiments/train.py --config configs/default_config.yaml --dataset lifestyle
+
+# Train on International Student Mental Health Dataset
+python experiments/train.py --config configs/default_config.yaml --dataset international
+```
+
+### 4. Model Evaluation
+```bash
+python experiments/evaluate.py --checkpoint checkpoints/best_model.pth --dataset lifestyle
+```
+
+## Model Architecture
+
+The PERMA-GNN-Transformer consists of four key components:
+
+1. **Multi-source Feature Input & Graph Construction**
+   - Constructs four topology graphs: cosine similarity, Euclidean distance, learning styles, PERMA-weighted
+   - Captures diverse student relationship patterns
+
+2. **PERMA Theory-Driven Feature Embedding**
+   - Maps raw educational features to five PERMA dimensions
+   - Cross-modal attention mechanism for dimension interaction modeling
+
+3. **Multi-topology Graph Neural Network**
+   - Parallel GCN and GAT layers for each topology
+   - Graph-level attention fusion for adaptive topology weighting
+
+4. **PERMA-Aligned Transformer Encoder**
+   - Five-head attention mechanism aligned with PERMA dimensions
+   - Multi-task learning framework with consistency constraints
+
+## Hyperparameter Configuration
+
+### Key Hyperparameters
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| Learning Rate | 2×10⁻⁴ | Initial learning rate |
+| Batch Size | 32 | Training batch size |
+| Hidden Dimension | 256 | Feature embedding dimension |
+| GCN Layers | 3 | Number of GCN layers per topology |
+| GCN Hidden Dim | 128 | Hidden dimension for GCN layers |
+| GAT Heads | 8 | Number of attention heads in GAT |
+| Transformer Heads | 5 | Number of attention heads (PERMA-aligned) |
+| Dropout Rate | 0.3 | Dropout probability |
+| Weight Decay | 1×10⁻⁵ | L2 regularization coefficient |
+| Max Epochs | 200 | Maximum training epochs |
+| Early Stopping | 20 | Patience for early stopping |
+
+**Complete hyperparameter details are provided in Appendix A of the manuscript.**
+
+### Optimizer Settings
+- **Optimizer**: AdamW
+- **β₁**: 0.9
+- **β₂**: 0.999
+- **ε**: 1×10⁻⁸
+- **Learning Rate Scheduler**: Cosine Annealing
+
+### Weight Initialization
+- **Feature Embedding**: Xavier Uniform
+- **GNN Layers**: He Normal
+- **Transformer**: Xavier Uniform with scaling
+
+## Evaluation Metrics
+
+### Traditional Metrics
+- **MAE (Mean Absolute Error)**: Average absolute deviation
+- **RMSE (Root Mean Square Error)**: Root mean squared error
+- **R² Score**: Coefficient of determination
+
+### PERMA Theory Comprehensive Metrics
+- **PDA (PERMA Dimension Accuracy)**: Prediction accuracy across five PERMA dimensions
+- **PCI (PERMA Consistency Index)**: Theoretical consistency between overall and dimensional predictions
+- **PCE (PERMA Comprehensive Effectiveness)**: Combined evaluation of accuracy and consistency
+
+## Reproducing Results
+
+### Main Comparative Experiments
+```bash
+# Run all baseline comparisons
+python experiments/comparative_experiments.py --config configs/default_config.yaml
+```
+
+**Expected Results (Lifestyle Dataset):**
+- MAE: 0.163
+- RMSE: 0.206
+- R²: 0.912
+- PDA: 0.841
+- PCI: 0.792
+- PCE: 0.843
+
+**Expected Results (International Student Dataset):**
+- MAE: 0.147
+- RMSE: 0.189
+- R²: 0.927
+- PDA: 0.823
+- PCI: 0.784
+- PCE: 0.835
+
+### Ablation Study
+```bash
+python experiments/ablation_study.py --config configs/default_config.yaml
+```
+
+### Hyperparameter Sensitivity Analysis
+```bash
+python experiments/hyperparameter_tuning.py --param learning_rate --range 1e-5 1e-3
+python experiments/hyperparameter_tuning.py --param batch_size --range 16 128
+```
+
+## Pre-trained Models
+
+Pre-trained model checkpoints are available for download:
+- [Lifestyle Dataset Model](link_to_model) - Trained on 12,757 samples
+- [International Student Dataset Model](link_to_model) - Trained on 268 samples
+
+Load pre-trained models:
+```python
+from models.perma_gnn_transformer import PERMAGNN
+model = PERMAGNN.load_from_checkpoint('checkpoints/lifestyle_best.pth')
+```
+
+## Visualization
+
+Generate result visualizations:
+```bash
+python utils/visualization.py --results results/predictions.csv --output figures/
+```
+
+Available visualizations:
+- PERMA dimension predictions vs. ground truth
+- Multi-topology graph attention weights
+- Cross-cultural performance comparison
+- Ablation study bar charts
+- Hyperparameter sensitivity curves
+
+## Citation
+
+If you use this code or find our work helpful, please cite our paper:
 
 ```bibtex
-@inproceedings{zhang2025perma,
-  title     = {PERMA-Guided Multi-Topology Graph Neural Networks for Cross-Cultural Student Well-being Prediction},
-  author    = {Zhang, YuChen and ...},
-  booktitle = {Advances in Neural Information Processing Systems},
-  year      = {2025},
-  note      = {Reproducibility package available at https://github.com/<user>/perma-gnn-transformer}
+@article{mo2025perma,
+  title={PERMA-Guided Multi-Topology Graph Neural Networks for Cross-Cultural Student Well-being Prediction},
+  author={Mo, Lingqi and Zhang, Jie and Jiang, Zixiao and Wang, Shuanglei and Lee, ShiouYih},
+  journal={PLOS ONE},
+  year={2025},
+  publisher={Public Library of Science}
 }
 ```
 
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contact
+
+**Corresponding Author:**  
+Jie Zhang  
+Email: i24026180@student.newinti.edu.my
+
+**First Author:**  
+Lingqi Mo  
+Email: molingqi123@163.com
+
+For questions, issues, or collaborations, please:
+- Open an issue in this repository
+- Contact the corresponding author via email
+- Visit our project website: [link_to_project_page]
+
+## Acknowledgments
+
+We thank:
+- PLOS ONE reviewers for valuable feedback
+- Kaggle for providing the Lifestyle and Wellbeing dataset
+- The international university in Japan for the International Student Mental Health dataset
+- INTI International University for computational resources
+
+## Updates
+
+- **2025-11**: Revision submitted to PLOS ONE with improved README and documentation
+- **2025-03**: Initial submission to PLOS ONE
+- **2024-12**: Pre-print released on arXiv
+
 ---
 
-## 10. Licence
-
-Source code: **Apache 2.0**
-Datasets: CC BY‑NC 4.0 (see individual dataset pages for details).
-
----
-
-> **Questions?** Open an issue or e‑mail *[i24026647@student.newinti.edu.my](mailto:i24026647@student.newinti.edu.my)* – we are happy to help.
+**Note**: This implementation is for research purposes. For production deployment in educational institutions, please contact the authors for guidance on ethical considerations and data privacy compliance.

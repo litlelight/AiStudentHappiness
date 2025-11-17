@@ -5,6 +5,7 @@
 This repository contains the implementation of **PERMA-GNN-Transformer**, a novel deep learning framework that integrates positive psychology theory with graph neural networks for predicting student well-being across different cultural contexts. The model achieves state-of-the-art performance by combining PERMA (Positive Emotion, Engagement, Relationships, Meaning, and Accomplishment) theory-driven feature embedding, multi-topology graph neural networks, and Transformer-based encoding.
 
 **Key Highlights:**
+
 - Integrates PERMA positive psychology theory with deep learning architecture
 - Multi-topology graph structure modeling (cosine similarity, Euclidean distance, learning styles, PERMA-weighted graphs)
 - Cross-cultural adaptability validated on datasets from multiple countries
@@ -47,7 +48,7 @@ This repository contains the implementation of **PERMA-GNN-Transformer**, a nove
 This study utilizes two publicly available datasets to validate cross-cultural adaptability:
 
 ### 1. Lifestyle and Wellbeing Data
-- **Source**: Kaggle ([www.Authentic-Happiness.com](https://github.com/litlelight/AiStudentHappiness/blob/main/Dataset01.csv))
+- **Source**: Kaggle - https://www.kaggle.com/datasets/ydalat/lifestyle-and-wellbeing-data
 - **Size**: 12,757 valid samples
 - **Features**: 23 dimensions including social time, exercise habits, sleep quality, work hours, etc.
 - **Cultural Context**: Primarily Western cultural backgrounds
@@ -63,6 +64,7 @@ This study utilizes two publicly available datasets to validate cross-cultural a
 - **Ethics**: Anonymized with appropriate institutional approval
 
 **Data Mapping to PERMA Theory:**
+
 - Positive Emotion: Mood scores, satisfaction ratings
 - Engagement: Study time, activity participation
 - Relationships: Social time, peer interaction frequency
@@ -78,8 +80,8 @@ This study utilizes two publicly available datasets to validate cross-cultural a
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/yourusername/PERMA-GNN-Transformer.git
-cd PERMA-GNN-Transformer
+git clone https://github.com/litlelight/AiStudentHappiness.git
+cd AiStudentHappiness
 ```
 
 ### Step 2: Create Virtual Environment
@@ -203,6 +205,7 @@ python experiments/comparative_experiments.py --config configs/default_config.ya
 ```
 
 **Expected Results (Lifestyle Dataset):**
+
 - MAE: 0.163
 - RMSE: 0.206
 - R²: 0.912
@@ -211,6 +214,7 @@ python experiments/comparative_experiments.py --config configs/default_config.ya
 - PCE: 0.843
 
 **Expected Results (International Student Dataset):**
+
 - MAE: 0.147
 - RMSE: 0.189
 - R²: 0.927
@@ -229,9 +233,6 @@ python experiments/hyperparameter_tuning.py --param learning_rate --range 1e-5 1
 python experiments/hyperparameter_tuning.py --param batch_size --range 16 128
 ```
 
-
-```
-
 ## Visualization
 
 Generate result visualizations:
@@ -240,6 +241,7 @@ python utils/visualization.py --results results/predictions.csv --output figures
 ```
 
 Available visualizations:
+
 - PERMA dimension predictions vs. ground truth
 - Multi-topology graph attention weights
 - Cross-cultural performance comparison
@@ -277,7 +279,6 @@ Email: molingqi123@163.com
 For questions, issues, or collaborations, please:
 - Open an issue in this repository
 - Contact the corresponding author via email
-- Visit our project website: [link_to_project_page]
 
 ## Acknowledgments
 

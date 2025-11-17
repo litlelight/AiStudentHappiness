@@ -1,5 +1,3 @@
-我需要先查看您上传的文档，以便根据您论文的具体内容撰写准确的README文件。让我先读取一下文档。根据论文内容,我为您撰写了一份完整、专业的README文件:
-
 ---
 
 # PERMA-Guided Multi-Topology Graph Neural Networks for Cross-Cultural Student Well-being Prediction

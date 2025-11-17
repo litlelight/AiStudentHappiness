@@ -51,7 +51,7 @@ This repository contains the implementation of **PERMA-GNN-Transformer**, a nove
 This study utilizes two publicly available datasets to validate cross-cultural adaptability:
 
 ### 1. Lifestyle and Wellbeing Data
-- **Source**: Kaggle (www.Authentic-Happiness.com)
+- **Source**: Kaggle ([www.Authentic-Happiness.com](https://github.com/litlelight/AiStudentHappiness/blob/main/Dataset01.csv))
 - **Size**: 12,757 valid samples
 - **Features**: 23 dimensions including social time, exercise habits, sleep quality, work hours, etc.
 - **Cultural Context**: Primarily Western cultural backgrounds

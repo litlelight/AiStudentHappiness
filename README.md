@@ -1,5 +1,3 @@
----
-
 # PERMA-Guided Multi-Topology Graph Neural Networks for Cross-Cultural Student Well-being Prediction
 
 ## Overview
@@ -231,16 +229,7 @@ python experiments/hyperparameter_tuning.py --param learning_rate --range 1e-5 1
 python experiments/hyperparameter_tuning.py --param batch_size --range 16 128
 ```
 
-## Pre-trained Models
 
-Pre-trained model checkpoints are available for download:
-- [Lifestyle Dataset Model](link_to_model) - Trained on 12,757 samples
-- [International Student Dataset Model](link_to_model) - Trained on 268 samples
-
-Load pre-trained models:
-```python
-from models.perma_gnn_transformer import PERMAGNN
-model = PERMAGNN.load_from_checkpoint('checkpoints/lifestyle_best.pth')
 ```
 
 ## Visualization

@@ -287,12 +287,6 @@ We thank:
 - The international university in Japan for the International Student Mental Health dataset
 - INTI International University for computational resources
 
-## Updates
-
-- **2025-11**: Revision submitted to PLOS ONE with improved README and documentation
-- **2025-03**: Initial submission to PLOS ONE
-- **2024-12**: Pre-print released on arXiv
-
 ---
 
 **Note**: This implementation is for research purposes. For production deployment in educational institutions, please contact the authors for guidance on ethical considerations and data privacy compliance.
